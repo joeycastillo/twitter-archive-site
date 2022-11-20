@@ -1,0 +1,4 @@
+baseURL = 'https://twitter.example.org/'
+languageCode = 'en-us'
+title = 'My Twitter Archive'
+theme = 'etch'
