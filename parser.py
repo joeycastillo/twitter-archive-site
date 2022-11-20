@@ -357,8 +357,6 @@ def main():
 
     # Group tweets by month (for markdown)
     for id, timestamp, md in tweets:
-        if timestamp < 1514764800:
-            continue
         # Use a markdown filename that can be imported into Jekyll: YYYY-MM-DD-your-title-here.md
         dt = datetime.datetime.fromtimestamp(timestamp)
         with open(output_folder_name + id + ".md", 'w', encoding='utf8') as f:
