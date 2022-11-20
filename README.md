@@ -1,39 +1,37 @@
 ## How do I use it?
+
+1. Install Hugo (on a Mac: `brew install hugo`)
 1. [Download your Twitter archive](https://twitter.com/settings/download_your_data) (Settings > Your account > Download an archive of your data).
-2. Unzip to a folder.
-3. Right-click this link [parser.py](https://raw.githubusercontent.com/timhutton/twitter-archive-parser/main/parser.py) and select "Save Link as", and save into the folder where you extracted the archive.
-    - Or with wget: `wget https://raw.githubusercontent.com/timhutton/twitter-archive-parser/main/parser.py` 
-4. Run parser.py with [Python3](https://realpython.com/installing-python/). e.g. `python parser.py` from a command prompt opened in that folder.
+1. Place the unzipped files in the 'input' folder.
+1. Run `python3 parser.py`. This will generate your twitter archive in the `output/content` folder.
+1. Edit `output/config.toml`. Mosty just change the `baseURL` to the site you plan to use for your twitter archive.
+1. `cd output`, then run `hugo`
 
-If you are having problems, the discussion here might be useful: https://mathstodon.xyz/@timhutton/109316834651128246
+Your twitter archive will be generated as a set of static HTML files in the `output/public` folder; you can upload these to any web host. [Example output](https://twitter.joeycastillo.com).
 
-## What does it do?
+**WARNING: This script includes your Twitter Circle tweets in the public archive.** They aren't noted in any special way. This is a legacy behavior from the upstream that I didn't have time to fix. Also unlike the upstream script, this one does not parse accounts you follow, folllowers or DMs. This is just for the public timeline (and of course circle tweets as mentioned above).
+
+If you are having problems, [ping me on Mastodon](https://mastodon.social/@joeycastillo); I forked this and threw the changes together in 48 hours for my own archive, so it wouldn't stun me if an issue comes up.
+
+# Upstream Readme
+
 The Twitter archive gives you a bunch of data and an HTML file (`Your archive.html`). Open that file to take a look! It lets you view your tweets in a nice interface. It has some flaws but maybe that's all you need. If so then stop here, you don't need our script.
 
 Flaws of the Twitter archive:
 - It shows you tweets you posted with images, but if you click on one of the images to expand it then it takes you to the Twitter website. If you are offline or have deleted your account or twitter.com is down then that won't work.
 - The tweets are stored in a complex JSON structure so you can't just copy them into your blog for example.
 - The images they give you are smaller than the ones you uploaded. I don't know why they would do this to us.
-- DMs are included but don't show you who they are from.
 - The links are all obfuscated in a short form using t.co, which hides their origin and redirects traffic to Twitter, giving them analytics. Also they will stop working if t.co goes down.
 
 Our script does the following:
 - Converts the tweets to [markdown](https://en.wikipedia.org/wiki/Markdown) and also HTML, with embedded images, videos and links.
 - Replaces t.co URLs with their original versions.
 - Copies used images to an output folder, to allow them to be moved to a new home.
-- Converts DMs to markdown, adds the user handles where known. Basic functionality for now, pending improvements.
-- Outputs lists of followers and following.
 - Afterwards, it asks if you want to try downloading the original size images.
 
 
-## TODO:
-- DM improvements ([#80](https://github.com/timhutton/twitter-archive-parser/issues/80))
-- Identify more user handles ([#79](https://github.com/timhutton/twitter-archive-parser/issues/79))
-- Likes ([#22](https://github.com/timhutton/twitter-archive-parser/issues/22)), ALT-text ([#20](https://github.com/timhutton/twitter-archive-parser/issues/20))
-- Expand all URL shorteners ([#42](https://github.com/timhutton/twitter-archive-parser/pull/42)): bit.ly, goo.gl etc.
-- Handle reply-to-self threads ([#23](https://github.com/timhutton/twitter-archive-parser/pull/23))
-
 ## Related tools:
+
 If our script doesn't do what you want then maybe a different tool will help:
 - https://github.com/selfawaresoup/twitter-tools
 - https://github.com/roobottom/twitter-archive-to-markdown-files
