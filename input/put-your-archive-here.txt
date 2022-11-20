@@ -1,0 +1,3 @@
+Place your twitter archive's assets and data folders here. 
+
+They are ignored in .gitignore so you won't commit them accidentally.
