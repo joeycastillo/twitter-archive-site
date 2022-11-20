@@ -3,7 +3,9 @@
     <header id="post-header">
         <h1>{{ .Title }}</h1>
         <div>
-            <time datetime="{{ .Date | time.Format "2006-01-02T15:04:05Z" }}">{{ .Date | time.Format ":date_long" }} at {{ .Date | time.Format ":time_full" }}</time>
+            {{ if .Date }}
+            <time datetime="{{ .Date | time.Format "2006-01-02T15:04:05Z" }}">{{ .Date | time.Format ":date_long" }} at {{ .Date | time.Format ":time_medium" }}</time>
+            {{ end }}
         </div>
     </header>
     {{- .Content -}}
