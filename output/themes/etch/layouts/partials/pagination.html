@@ -1,0 +1,15 @@
+{{ if .Paginator.HasNext }}
+  <a class="pagination-item" href="{{ .Paginator.Next.URL }}">Older</a>
+{{ else }}
+  <span class="pagination-item disabled">Older</span>
+{{ end }}
+&bullet;
+{{ if .Paginator.HasPrev }}
+  {{ if eq .Paginator.PageNumber 2 }}
+    <a class="pagination-item" href="{{ .Site.BaseURL }}{{ .Site.LanguagePrefix }}">Newer</a>
+  {{ else }}
+    <a class="pagination-item" href="{{ .Paginator.Prev.URL }}">Newer</a>
+  {{ end }}
+{{ else }}
+  <span class="pagination-item disabled">Newer</span>
+{{ end }}

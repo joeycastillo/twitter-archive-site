@@ -4,3 +4,4 @@ input/assets
 input/data
 output/content
 output/public
+output/.hugo_build.lock

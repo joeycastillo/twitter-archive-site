@@ -1,6 +1,5 @@
 <li>
-    <a href="{{ .Permalink }}">
-        {{ .Title }}
-        <small><time>{{ .Date | time.Format (i18n "posts.date") }}</time></small>
-    </a>
+    {{ .Content }}
+    <p><a href="{{ .Permalink }}"><time datetime="{{ .Date | time.Format "2006-01-02T15:04:05Z" }}">{{ .Date | time.Format ":date_long" }} at {{ .Date | time.Format ":time_full" }}</time></a></p>
 </li>
+<hr>

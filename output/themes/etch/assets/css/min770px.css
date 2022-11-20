@@ -9,6 +9,11 @@ main#content hr {
     margin-left: -3.8%;
 }
 
+main#content video {
+    width: 108%;
+    margin-left: -3.8%;
+}
+
 /* index.html styles */
 header#banner h2 {
     font-size: 25px;

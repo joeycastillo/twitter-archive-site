@@ -1,6 +1,8 @@
 <h3>{{ i18n "posts.title" }}</h3>
 <ul id="posts">
-{{- range where site.RegularPages "Type" "in" site.Params.mainSections }}
-    {{ .Render "li" }}
-{{- end }}
+    {{ $paginator := .Paginate (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) .Site.Params.paginate }}
+    {{ range $paginator.Pages.ByDate.Reverse }}
+        {{ .Render "li" }}
+    {{ end }}
 </ul>
+{{ partial "pagination.html" . }}
