@@ -82,6 +82,7 @@ def convert_tweet(tweet, username, archive_media_folder, output_media_folder_nam
                 body_markdown = body_markdown.replace(url['url'], expanded_url)
     # if the tweet is a reply, construct a header that links the names of the accounts being replied to the tweet being replied to
     header_markdown = ''
+    first_image = None
     if 'in_reply_to_status_id' in tweet:
         # match and remove all occurences of '@username ' at the start of the body
         replying_to = re.match(r'^(@[0-9A-Za-z_]* )*', body_markdown)[0]
@@ -118,6 +119,8 @@ def convert_tweet(tweet, username, archive_media_folder, output_media_folder_nam
                     if not os.path.isfile(new_url):
                         shutil.copy(archive_media_path, new_url)
                     markdown += f'![](/media/{archive_media_filename})'
+                    if not first_image:
+                        first_image = f'/media/{archive_media_filename}'
                     # Save the online location of the best-quality version of this file, for later upgrading if wanted
                     best_quality_url = f'https://pbs.twimg.com/media/{original_filename}:orig'
                     media_sources.append((os.path.join(output_media_folder_name, archive_media_filename), best_quality_url))
@@ -171,7 +174,7 @@ def convert_tweet(tweet, username, archive_media_folder, output_media_folder_nam
                 handle = mention['screen_name']
                 users[id] = UserData(id=id, handle=handle)
 
-    return tweet_id_str, timestamp, body_markdown
+    return tweet_id_str, timestamp, body_markdown, first_image
 
 
 def import_module(module):
@@ -356,11 +359,14 @@ def main():
     tweets.sort(key=lambda tup: tup[0])
 
     # Group tweets by month (for markdown)
-    for id, timestamp, md in tweets:
+    for id, timestamp, md, image in tweets:
         # Use a markdown filename that can be imported into Jekyll: YYYY-MM-DD-your-title-here.md
         dt = datetime.datetime.fromtimestamp(timestamp)
         with open(output_folder_name + id + ".md", 'w', encoding='utf8') as f:
-            f.write(f'---\ntitle: Tweet\ndate: {dt}\n---\n')
+            if image:
+                f.write(f'---\ntitle: Tweet\ndate: {dt}\nimage: {image}\n---\n')
+            else:
+                f.write(f'---\ntitle: Tweet\ndate: {dt}\n---\n')
             f.write(md)
 
     # # Ask user if they want to try downloading larger images
